@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketHub - Buy, Sell, Rent Everything</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">BazaarLink</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showHome()">Home</a></li>
+                <li><a href="#" onclick="showPage('browse')">Browse</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                <li><a href="#" onclick="clearLocalStorage()" class="hidden">Clear My Data</a></li>
+            </ul>
+            <div class="auth-buttons" id="authButtons">
+                <a href="#" class="btn btn-secondary" onclick="openModal('loginModal')">Login</a>
+                <a href="#" class="btn btn-primary" onclick="openModal('registerModal')">Register</a>
+            </div>
+            <div class="auth-buttons hidden" id="userMenu">
+                <span id="welcomeUser">Welcome!</span>
+                <a href="#" class="btn btn-secondary" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Page -->
+        <div id="homePage">
+            <section class="hero">
+                <div class="hero-container">
+                    <h1>Welcome to BazaarLink</h1>
+                    <p>Your one-stop destination for buying, selling, and renting everything you need</p>
+
+                    <div class="features">
+                        <div class="feature-card">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>Buy Products</h3>
+                            <p>Discover amazing products from verified sellers worldwide</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-store"></i>
+                            <h3>Sell Items</h3>
+                            <p>Start your business and reach millions of potential customers</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-home"></i>
+                            <h3>Rent Properties</h3>
+                            <p>List your property or find the perfect rental space</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-calendar-check"></i>
+                            <h3>Manage Availability</h3>
+                            <p>Keep track of your inventory and availability in real-time</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Secure Transactions</h3>
+                            <p>Safe and secure payments with buyer protection</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-headset"></i>
+                            <h3>24/7 Support</h3>
+                            <p>Get help whenever you need it from our support team</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <div class="avatar" id="userAvatar">U</div>
+                    <div>
+                        <h2 id="userName">User Name</h2>
+                        <p id="userRole">Role</p>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalProducts">0</div>
+                        <div>Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalOrders">0</div>
+                        <div>Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalRevenue">₹0</div>
+                        <div>Revenue</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-tabs">
+                <button class="tab-button active" onclick="switchTab('products')">
+                    <i class="fas fa-box"></i> Products
+                </button>
+                <button class="tab-button" onclick="switchTab('orders')" id="ordersTab">
+                    <i class="fas fa-shopping-cart"></i> Orders
+                </button>
+                <button class="tab-button" onclick="switchTab('cart')" id="cartTab">
+                    <i class="fas fa-shopping-bag"></i> Cart
+                </button>
+                <button class="tab-button" onclick="switchTab('rentals')" id="rentalsTab">
+                    <i class="fas fa-home"></i> Rentals
+                </button>
+                <button class="tab-button" onclick="switchTab('analytics')" id="analyticsTab">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </button>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products" class="tab-content active">
+                <div id="addProductSection" class="add-product-form">
+                    <h3>Add New Product/Service</h3>
+                    <form id="addProductForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="productCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="home">Home & Garden</option>
+                                    <option value="books">Books</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="rental">Rental Property</option>
+                                    <option value="services">Services</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Price (₹)</label>
+                                <input type="number" id="productPrice" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity Available</label>
+                                <input type="number" id="productQuantity" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="productDescription" rows="3"
+                                style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Product</button>
+                    </form>
+                </div>
+
+                <h3>My Products</h3>
+                <div class="products-grid" id="myProducts">
+                    <!-- Products will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders" class="tab-content">
+                <h3>Order Management</h3>
+                <div id="ordersList">
+                    <!-- Orders will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Cart Tab -->
+            <div id="cart" class="tab-content">
+                <h3>Shopping Cart</h3>
+                <div id="cartItems">
+                    <!-- Cart items will be displayed here -->
+                </div>
+                <div class="cart-total" id="cartTotal" style="display: none;">
+                    <h3>Total: ₹<span id="totalAmount">0</span></h3>
+                    <button class="btn btn-primary" onclick="checkout()">Checkout</button>
+                </div>
+            </div>
+
+            <!-- Rentals Tab -->
+            <div id="rentals" class="tab-content">
+                <h3>Rental Management</h3>
+                <div id="rentalsList">
+                    <!-- Rentals will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <h3>Analytics & Reports</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalViews">0</div>
+                        <div>Total Views</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="conversionRate">0%</div>
+                        <div>Conversion Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgOrderValue">₹0</div>
+                        <div>Avg. Order Value</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="customerSatisfaction">0%</div>
+                        <div>Customer Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create Your Account</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" id="regMobile" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Choose Your Role</label>
+                    <div class="role-selection">
+                        <div class="role-option" data-role="buyer">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h4>Buyer</h4>
+                            <p>Purchase products</p>
+                        </div>
+                        <div class="role-option" data-role="seller">
+                            <i class="fas fa-store"></i>
+                            <h4>Seller</h4>
+                            <p>Sell products</p>
+                        </div>
+                        <div class="role-option" data-role="both">
+                            <i class="fas fa-handshake"></i>
+                            <h4>Both</h4>
+                            <p>Buy & Sell</p>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Welcome Back</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Don't have an account? <a href="#"
+                    onclick="closeModal('loginModal'); openModal('registerModal');">Register here</a>
+            </p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
